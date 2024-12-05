@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SocialNetwork" parent="Theme.Design.Light.NoActionBar">
+        <item name="android:textColor">@color/black</item>
+        <!-- Customize your light theme here. -->
+    </style>
+
+    <style name="Theme.SocialNetwork" parent="Base.Theme.SocialNetwork" />
+</resources>
