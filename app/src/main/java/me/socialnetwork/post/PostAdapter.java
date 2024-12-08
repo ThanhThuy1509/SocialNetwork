@@ -1,4 +1,4 @@
-package me.socialnetwork;
+package me.socialnetwork.post;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
+import me.socialnetwork.R;
+
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+
+    public static class PostViewHolder extends RecyclerView.ViewHolder {
+        TextView name, username, content;
+        ImageView avatar;
+
+        public PostViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = itemView.findViewById(R.id.name);
+            username = itemView.findViewById(R.id.username);
+            content = itemView.findViewById(R.id.postContent);
+            avatar = itemView.findViewById(R.id.avatar);
+        }
+    }
+
     private Context context;
     private List<Post> postList;
 
@@ -19,19 +35,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         this.postList = postList;
     }
 
-    public PostAdapter(List<String> samplePosts) {
-    }
-
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_profile_post, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
         return new PostViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
+        holder.name.setText(post.getName());
         holder.username.setText(post.getUsername());
         holder.content.setText(post.getContent());
         holder.avatar.setImageResource(post.getAvatarResource());
@@ -42,15 +56,4 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return postList.size();
     }
 
-    public static class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView username, content;
-        ImageView avatar;
-
-        public PostViewHolder(@NonNull View itemView) {
-            super(itemView);
-            username = itemView.findViewById(R.id.postUsername);
-            content = itemView.findViewById(R.id.postContent);
-            avatar = itemView.findViewById(R.id.avatar);
-        }
-    }
 }

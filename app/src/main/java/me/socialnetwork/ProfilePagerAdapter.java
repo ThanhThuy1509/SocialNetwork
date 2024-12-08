@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import me.socialnetwork.fragment.PostsFragment;
+import me.socialnetwork.fragment.RepliesFragment;
+import me.socialnetwork.fragment.RepostFragment;
+
 public class ProfilePagerAdapter extends FragmentStateAdapter {
 
     public ProfilePagerAdapter(@NonNull FragmentActivity fragmentActivity) {

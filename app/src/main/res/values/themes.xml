@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.SocialNetwork" parent="Base.Theme.SocialNetwork" />
+    
+    <style name="FloatingHintStyle" parent="TextAppearance.AppCompat"> 
+        <item name="android:textColor">#CAC6C6</item>
+    </style>
+    
 </resources>
