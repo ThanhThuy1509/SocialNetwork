@@ -3,21 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/popupwindow_background"
+    android:id="@+id/add_post"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <!-- Thanh tiêu đề -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:paddingTop="12dp"
+            android:background="@color/white"
+            android:paddingBottom="12dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="5dp">
 
             <ImageView
-                android:id="@+id/btn_close"
+                android:id="@+id/composeCloseButton"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentStart="true"
@@ -53,7 +60,7 @@
                 android:thicknessRatio="1.9"
                 app:cardCornerRadius="50dp">
                 <ImageView
-                    android:id="@+id/user_profile_image"
+                    android:id="@+id/avatar_uploadPost"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/avt"
@@ -66,8 +73,8 @@
                 android:layout_height="wrap_content"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 <!--            <TextView-->
 <!--                android:id="@+id/postUsername"-->
@@ -79,8 +86,8 @@
 
             <!-- Text input -->
                 <EditText
-                    android:id="@+id/post_content"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/composeContent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="Có gì mới?"
@@ -98,12 +105,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="15dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/instagram_photo_outline_44"
                 android:tint="@color/black"
                 android:layout_marginEnd="16dp"
@@ -112,16 +120,17 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_post"
+            android:id="@+id/uploadPost"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="end"
-            android:backgroundTint="#9E9E9E"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/button_post"
             android:text="Đăng"
+            android:textSize="15sp"
+            android:textAllCaps="false"
             android:textColor="#FFFFFF"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 
 

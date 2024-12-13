@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_post"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="horizontal">
 
     <!-- res/layout/item_post.xml -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:orientation="vertical"
         android:padding="8dp"
-        android:background="#FFFFFF"
         tools:ignore="MissingConstraints">
 
         <!-- Thông tin người đăng -->
         <LinearLayout
-            android:paddingTop="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:cardCornerRadius="20dp"
                 app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,22 +39,22 @@
                         android:id="@+id/avatar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="18dp"
                         android:contentDescription="@string/avatar"
-                        android:src="@drawable/avt"
                         android:scaleType="centerCrop"
-                        tools:ignore="MissingConstraints"/>
+                        android:src="@drawable/avt"
+                        tools:ignore="MissingConstraints" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -67,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/name"
                         android:textColor="#000000"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -77,17 +78,17 @@
                         android:layout_marginStart="6dp"
                         android:text="@string/username"
                         android:textColor="#808080"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         tools:ignore="TextContrastCheck" />
 
                 </LinearLayout>
 
 
                 <TextView
-                    android:id="@+id/postTime"
+                    android:id="@+id/createTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2h"
+                    android:text="--:--"
                     android:textColor="#808080"
                     android:textSize="12sp"
                     tools:ignore="HardcodedText,TextContrastCheck" />
@@ -95,26 +96,41 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
                 android:gravity="end|top"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <TextView
+                    android:id="@+id/followButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/follow"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/postMoreButton"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
+                    android:layout_gravity="center"
                     android:contentDescription="@string/more_button"
-                    android:scaleType="centerInside"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/instagram_more_horizontal_pano_outline_12"
                     tools:ignore="TouchTargetSizeCheck,RedundantDescriptionCheck" />
 
             </LinearLayout>
 
+
         </LinearLayout>
+
         <TextView
             android:id="@+id/postContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="6dp"
             android:text="Bai dang o trang chinh"
             android:textColor="#000000"
             android:textSize="14sp"
@@ -123,58 +139,62 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="13dp"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/barcelona_heart_outline_18"
+                android:id="@+id/likeButton"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:contentDescription="Like"
+                android:src="@drawable/barcelona_heart_outline_18"
+
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/likeCount"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="30dp"
                 android:text="@string/test_count"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/barcelona_comment_outline_18"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:contentDescription="Reply"
+                android:src="@drawable/barcelona_comment_outline_18"
                 tools:ignore="HardcodedText" />
+
             <TextView
                 android:id="@+id/repliedCount"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="30dp"
                 android:text="@string/test_count"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/barcelona_repost_outline_18"
+                android:id="@+id/repostButton"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:contentDescription="Repost"
+                android:src="@drawable/barcelona_repost_outline_18"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/repostCount"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="10dp"
                 android:text="@string/test_count"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
 
         </LinearLayout>
@@ -188,4 +208,4 @@
         android:background="#E0E0E0"
         tools:ignore="MissingConstraints" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

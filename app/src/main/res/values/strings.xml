@@ -4,11 +4,25 @@
     <string name="profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="username">\@username</string>
-    <string name="name">Name</string>
+    <string name="username">Tên tài khoản</string>
+    <string name="name">Tên</string>
     <string name="avatar">avatar</string>
-    <string name="edit_profile">Edit profile</string>
+    <string name="edit_profile">Chỉnh sửa hồ sơ</string>
     <string name="tablayout">Tablayout</string>
     <string name="more_button">more button</string>
     <string name="test_count">1</string>
+    <string name="log_in">Log In</string>
+    <string name="don_t_have_an_account_sign_up">Don’t have an account? Sign Up</string>
+    <string name="already_have_an_account_log_in">Already have an account? Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="bio">Tiểu sử</string>
+    <string name="edit_avatar_picture">Chỉnh sửa ảnh đại diện</string>
+    <string name="edit_profile_title">Sửa thông tin cá nhân</string>
+    <string name="days">&#160;ngày</string>
+    <string name="hours">&#160;giờ</string>
+    <string name="minutes">&#160;phút</string>
+    <string name="seconds">&#160;giây</string>
+    <string name="follow">Theo dõi</string>
+    <string name="followers">Người theo dõi</string>
+    <string name="following">Đang theo dõi</string>
 </resources>

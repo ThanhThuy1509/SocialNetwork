@@ -3,12 +3,28 @@
     <style name="Base.Theme.SocialNetwork" parent="Theme.Design.Light.NoActionBar">
         <item name="android:textColor">@color/black</item>
         <!-- Customize your light theme here. -->
+
     </style>
 
-    <style name="Theme.SocialNetwork" parent="Base.Theme.SocialNetwork" />
+    <style name="Theme.SocialNetwork" parent="Base.Theme.SocialNetwork">
+        <item name="popupMenuStyle">@style/PopupMenuStyle</item>
+    </style>
     
     <style name="FloatingHintStyle" parent="TextAppearance.AppCompat"> 
         <item name="android:textColor">#CAC6C6</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+<!--        <item name="background">@drawable/selector_textbox</item>-->
     </style>
-    
+
+    <style name="PopupMenuStyle" parent="Theme.Design.Light.NoActionBar">
+        <item name="android:popupBackground">@drawable/popup_menu_style</item>
+        <item name="android:divider">#E0E0E0</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+
 </resources>
