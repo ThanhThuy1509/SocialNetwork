@@ -23,6 +23,7 @@
     <string name="minutes">&#160;phút</string>
     <string name="seconds">&#160;giây</string>
     <string name="follow">Theo dõi</string>
+    <string name="unfollow">Bỏ theo dõi</string>
     <string name="followers">Người theo dõi</string>
     <string name="following">Đang theo dõi</string>
     <string name="comment">Bình luận</string>
@@ -36,4 +37,8 @@
     <string name="likes">Thích</string>
     <string name="reposts">Đăng lại</string>
     <string name="logout">Đăng xuất</string>
+    <string name="a">@</string>
+    <string name="empty">Không được bỏ trống</string>
+    <string name="confirm_password">Mật khẩu không khớp</string>
+    <string name="register_fail">Đăng ký thất bại</string>
 </resources>

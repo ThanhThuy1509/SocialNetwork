@@ -42,8 +42,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
 
-    public interface CommentCallback {
+    public interface PostCallback {
+        void Like(boolean isLike, String likeCount);
         void Comment(Map<String, String> body);
+        void Repost(boolean isRepost, String repostCount);
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
@@ -110,16 +112,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private final View parentView;
     private final ItemType itemType;
 
-    private CommentCallback commentCallback;
+    private PostCallback postCallback;
 
     private String cookie;
 
-    public PostAdapter(Context context, List<Post> postList, View parentView, ItemType itemType, CommentCallback commentCallback) {
+    public PostAdapter(Context context, List<Post> postList, View parentView, ItemType itemType, PostCallback postCallback) {
         this.context = context;
         this.postList = postList;
         this.parentView = parentView;
         this.itemType = itemType;
-        this.commentCallback = commentCallback;
+        this.postCallback = postCallback;
         this.cookie = getData(context, "cookie");
     }
 
@@ -219,6 +221,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     post.setLike(!post.isLike());
                     post.setLikeCount(response.body());
                     updatePost(holder, post);
+                    if (itemType == ItemType.POST_2) {
+                        postCallback.Like(post.isLike(), post.getLikeCount());
+                    }
                 }
 
                 @Override
@@ -236,17 +241,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 i.putExtra("reply", true);
                 context.startActivity(i);
             } else if (itemType == ItemType.POST_2) {
-                commentCallback.Comment(body);
+                postCallback.Comment(body);
             } else if (itemType == ItemType.COMMENT) {
                 body.put("username", post.getUsername());
                 body.put("parent_comment_id", post.getId());
                 body.put("replied_to_comment_id", post.getId());
-                commentCallback.Comment(body);
+                postCallback.Comment(body);
             } else if (itemType == ItemType.REPLY_TO_COMMENT) {
                 body.put("username", post.getUsername());
                 body.put("parent_comment_id", post.getParentCommentId());
                 body.put("replied_to_comment_id", post.getId());
-                commentCallback.Comment(body);
+                postCallback.Comment(body);
             }
         });
 
@@ -259,6 +264,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     post.setReposted(!post.getReposted());
                     post.setRepostCount(response.body());
                     updatePost(holder, post);
+                    if (itemType == ItemType.POST_2) {
+                        postCallback.Repost(post.getReposted(), post.getRepostCount());
+                    }
                 }
 
                 @Override
@@ -300,10 +308,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         holder.replies.setLayoutManager(new LinearLayoutManager(context));
                         holder.replies.addItemDecoration(new ItemDecoration());
 
-                        holder.replies.setAdapter(holder.postAdapter = new PostAdapter(context, holder.listChildComment = response.body(), parentView, ItemType.REPLY_TO_COMMENT, new CommentCallback() {
+                        holder.replies.setAdapter(holder.postAdapter = new PostAdapter(context, holder.listChildComment = response.body(), parentView, ItemType.REPLY_TO_COMMENT, new PostCallback() {
+                            @Override
+                            public void Like(boolean isLike, String likeCount) {
+
+                            }
+
                             @Override
                             public void Comment(Map<String, String> body) {
-                                commentCallback.Comment(body);
+                                postCallback.Comment(body);
+                            }
+
+                            @Override
+                            public void Repost(boolean isRepost, String repostCount) {
+
                             }
                         }));
                         holder.loadRepliesButton.setVisibility(View.GONE);
@@ -415,10 +433,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     holder.replies.setVisibility(View.VISIBLE);
                     holder.listChildComment.add(post);
                     holder.replies.setLayoutManager(new LinearLayoutManager(context));
-                    holder.replies.setAdapter(holder.postAdapter = new PostAdapter(context, holder.listChildComment, parentView, ItemType.REPLY_TO_COMMENT, new CommentCallback() {
+                    holder.replies.setAdapter(holder.postAdapter = new PostAdapter(context, holder.listChildComment, parentView, ItemType.REPLY_TO_COMMENT, new PostCallback() {
+                        @Override
+                        public void Like(boolean isLike, String likeCount) {
+
+                        }
+
                         @Override
                         public void Comment(Map<String, String> body) {
-                            commentCallback.Comment(body);
+                            postCallback.Comment(body);
+                        }
+
+                        @Override
+                        public void Repost(boolean isRepost, String repostCount) {
+
                         }
                     }));
                     return;

@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -42,6 +43,13 @@ public class LoginActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        TextView registerLink = findViewById(R.id.registerLink);
+
+        registerLink.setOnClickListener(v -> {
+            Intent i = new Intent(this, RegisterActivity.class);
+            startActivity(i);
         });
 
         String cookie = getData(this, "cookie");

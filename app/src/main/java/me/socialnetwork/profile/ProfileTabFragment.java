@@ -67,9 +67,24 @@ public abstract class ProfileTabFragment extends Fragment {
         postList = new ArrayList<>();
 
         recyclerView.addItemDecoration(new ItemDecoration());
-        recyclerView.setAdapter(postAdapter = new PostAdapter(requireContext(), postList, view, ItemType.POST, body1 -> {
+        recyclerView.setAdapter(postAdapter = new PostAdapter(requireContext(), postList, view, ItemType.POST,
+                new PostAdapter.PostCallback() {
+                    @Override
+                    public void Like(boolean isLike, String likeCount) {
 
-        }));
+                    }
+
+                    @Override
+                    public void Comment(Map<String, String> body) {
+
+                    }
+
+                    @Override
+                    public void Repost(boolean isRepost, String repostCount) {
+
+                    }
+                }
+        ));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

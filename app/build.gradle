@@ -43,4 +43,5 @@ dependencies {
     implementation libs.converter.gson
     implementation(libs.material.v110alpha03)
     implementation libs.dexter
+    implementation libs.androidx.swiperefreshlayout
 }

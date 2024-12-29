@@ -15,10 +15,12 @@ activity = "1.9.3"
 constraintlayout = "2.2.0"
 materialVersion = "1.2.0"
 retrofit = "2.11.0"
+swiperefreshlayout = "1.2.0-alpha01"
 volley = "1.2.1"
 
 [libraries]
 androidx-cardview = { module = "androidx.cardview:cardview" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 appcompat-v130beta01 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }

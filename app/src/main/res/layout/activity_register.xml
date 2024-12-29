@@ -20,7 +20,7 @@
 
         <EditText
             android:paddingTop="3dp"
-            android:id="@+id/nameInputSignUp"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Full Name"
@@ -38,7 +38,7 @@
 
         <EditText
             android:paddingTop="3dp"
-            android:id="@+id/usernameInputSignUp"
+            android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
@@ -56,7 +56,7 @@
 
         <EditText
             android:paddingTop="3dp"
-            android:id="@+id/passwordInputSignUp"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -73,7 +73,7 @@
 
         <EditText
             android:paddingTop="3dp"
-            android:id="@+id/confirmPasswordInputSignUp"
+            android:id="@+id/confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Confim Password"
@@ -85,7 +85,7 @@
 
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

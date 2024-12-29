@@ -104,12 +104,12 @@ public class UserTagAdapter extends RecyclerView.Adapter<UserTagAdapter.UserTagV
     private void followButtonBg(Button button, byte status) {
         switch (status) {
             case 0:
-                button.setText("Theo dõi");
+                button.setText(context.getString(R.string.follow));
                 button.setBackground(context.getDrawable(R.drawable.follow_button_unselect));
                 button.setTextColor(context.getResources().getColorStateList(R.color.white));
                 break;
             case 1:
-                button.setText("Bỏ theo dõi");
+                button.setText(context.getString(R.string.unfollow));
                 button.setBackground(context.getDrawable(R.drawable.follow_button_selected));
                 button.setTextColor(context.getResources().getColorStateList(R.color.black));
                 break;
