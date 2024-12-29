@@ -3,6 +3,7 @@ package me.socialnetwork.fragment;
 import static me.socialnetwork.LoginActivity.getData;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,13 +42,13 @@ public class PostFragment extends Fragment {
     private RecyclerView recyclerView;
     private List<Post> commentList;
     private PostAdapter postAdapter;
-    private final PostAdapter.CommentCallback commentCallback;
+    private final PostAdapter.PostCallback postCallback;
 
     private final StatusCallback statusCallback;
 
-    public PostFragment(Post post, PostAdapter.CommentCallback commentCallback, StatusCallback statusCallback) {
+    public PostFragment(Post post, PostAdapter.PostCallback postCallback, StatusCallback statusCallback) {
         this.post = post;
-        this.commentCallback = commentCallback;
+        this.postCallback = postCallback;
         this.statusCallback = statusCallback;
     }
 
@@ -68,10 +69,20 @@ public class PostFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        recyclerView.setAdapter(new PostAdapter(view.getContext(), new ArrayList<>(Collections.singletonList(post)), view, ItemType.POST_2, new PostAdapter.CommentCallback() {
+        recyclerView.setAdapter(new PostAdapter(view.getContext(), new ArrayList<>(Collections.singletonList(post)), view, ItemType.POST_2, new PostAdapter.PostCallback() {
+            @Override
+            public void Like(boolean isLike, String likeCount) {
+                postCallback.Like(isLike, likeCount);
+            }
+
             @Override
             public void Comment(Map<String, String> body) {
-                commentCallback.Comment(body);
+                postCallback.Comment(body);
+            }
+
+            @Override
+            public void Repost(boolean isRepost, String repostCount) {
+                postCallback.Repost(isRepost, repostCount);
             }
         }));
 
@@ -95,10 +106,18 @@ public class PostFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<ArrayList<Post>> call, @NonNull Response<ArrayList<Post>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    recyclerView.setAdapter(postAdapter = new PostAdapter(view.getContext(), commentList = response.body(), view, ItemType.COMMENT, new PostAdapter.CommentCallback() {
+                    recyclerView.setAdapter(postAdapter = new PostAdapter(view.getContext(), commentList = response.body(), view, ItemType.COMMENT, new PostAdapter.PostCallback() {
+                        @Override
+                        public void Like(boolean isLike, String likeCount) {
+                        }
+
                         @Override
                         public void Comment(Map<String, String> body) {
-                            commentCallback.Comment(body);
+                            postCallback.Comment(body);
+                        }
+
+                        @Override
+                        public void Repost(boolean isRepost, String repostCount) {
                         }
                     }));
                 }

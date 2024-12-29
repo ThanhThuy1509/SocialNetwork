@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -61,13 +62,13 @@ public class HomeFragment extends Fragment {
     private PostAdapter postAdapter;
     private List<Post> postList;
     private boolean isSleepQuery;
-
+    View view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
+        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh);
 
         cookie = getData(requireContext(), "cookie");
 
@@ -111,27 +112,15 @@ public class HomeFragment extends Fragment {
         postList = new ArrayList<>();
         // Add some sample posts
 
-
-        StandardAPI.getService.getPosts(cookie, 0).enqueue(new Callback<ArrayList<Post>>() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<Post>> call, @NonNull Response<ArrayList<Post>> response) {
-                if (!response.isSuccessful()) return;
-                postList = response.body();
-                postAdapter = new PostAdapter(getContext(), postList, view, ItemType.POST, new PostAdapter.CommentCallback() {
-                    @Override
-                    public void Comment(Map<String, String> body) {
-
-                    }
-                });
-                recyclerView.setAdapter(postAdapter);
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ArrayList<Post>> call, @NonNull Throwable throwable) {
-                throwable.printStackTrace();
+            public void onRefresh() {
+                postList = new ArrayList<>();
+                request();
+                refreshLayout.setRefreshing(false);
             }
         });
-
+        request();
         FloatingActionButton floatingActionButton = view.findViewById(R.id.floatButton);
 
         floatingActionButton.setOnClickListener(v -> {
@@ -285,4 +274,40 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    public void request() {
+        StandardAPI.getService.getPosts(cookie, 0).enqueue(new Callback<ArrayList<Post>>() {
+            @Override
+            public void onResponse(@NonNull Call<ArrayList<Post>> call, @NonNull Response<ArrayList<Post>> response) {
+                if (!response.isSuccessful()) return;
+                postList = response.body();
+                postAdapter = new PostAdapter(getContext(), postList, view, ItemType.POST, new PostAdapter.PostCallback() {
+                    @Override
+                    public void Like(boolean isLike, String likeCount) {
+
+                    }
+
+                    @Override
+                    public void Comment(Map<String, String> body) {
+
+                    }
+
+                    @Override
+                    public void Repost(boolean isRepost, String repostCount) {
+
+                    }
+                });
+                recyclerView.setAdapter(postAdapter);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ArrayList<Post>> call, @NonNull Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

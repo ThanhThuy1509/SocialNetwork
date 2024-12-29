@@ -36,6 +36,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -47,6 +48,7 @@ import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,13 +77,17 @@ public class ProfileFragment extends Fragment {
     private final static String PROFILE_UPDATE = "PROFILE_UPDATE";
     private View view;
 
-    private TextView nameProfile;
-    private TextView usernameProfile;
+    TextView nameProfile;
+    TextView usernameProfile;
     ImageView avatarProfile;
     ImageView backButton;
     ImageView drawerButton;
     User user;
     String userId;
+    Button editProfileButton;
+    TextView followersCount;
+    TextView followingCount;
+    Button followButton;
 
     public ProfileFragment(String userId) {
         this.userId = userId;
@@ -102,10 +108,12 @@ public class ProfileFragment extends Fragment {
         nameProfile = view.findViewById(R.id.nameProfile);
         usernameProfile = view.findViewById(R.id.usernameProfile);
         avatarProfile = view.findViewById(R.id.profileImage);
-        TextView followersCount = view.findViewById(R.id.followersCount);
-        TextView followingCount = view.findViewById(R.id.followingCount);
-        Button editProfileButton = view.findViewById(R.id.editProfileButton);
+        followersCount = view.findViewById(R.id.followersCount);
+        followingCount = view.findViewById(R.id.followingCount);
+        editProfileButton = view.findViewById(R.id.editProfileButton);
         backButton = view.findViewById(R.id.back_button);
+        followButton = view.findViewById(R.id.follow_button);
+        SwipeRefreshLayout refreshLayout = view.findViewById(R.id.refresh);
 
         LinearLayout followersShowButton = view.findViewById(R.id.followers_show);
         LinearLayout followingShowButton = view.findViewById(R.id.following_show);
@@ -113,37 +121,12 @@ public class ProfileFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
 
+
+
         ProfilePagerAdapter adapter = new ProfilePagerAdapter(requireActivity(), userId);
         viewPager.setAdapter(adapter);
 
-        StandardAPI.getService.getProfile(userId, getData(requireContext(), "cookie")).enqueue(new Callback<User>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                assert response.body() != null;
-                user = response.body();
-                nameProfile.setText(response.body().getName());
-                usernameProfile.setText(response.body().getUsername());
-
-                // Base64 to image
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    byte[] imgBytes = Base64.getDecoder().decode(response.body().getAvatar());
-                    Bitmap img = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
-
-                    avatarProfile.setImageBitmap(img);
-
-                }
-
-                followersCount.setText(response.body().getFollowers());
-                followingCount.setText(response.body().getFollowing());
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable throwable) {
-
-            }
-        });
+        request();
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
@@ -152,6 +135,15 @@ public class ProfileFragment extends Fragment {
                 case 2: tab.setText(view.getResources().getString(R.string.reposts)); break;
             }
         }).attach();
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.notifyDataSetChanged();
+                request();
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         editProfileButton.setOnClickListener(v -> editProfileWindow(view.getContext()));
 
@@ -375,6 +367,37 @@ public class ProfileFragment extends Fragment {
             }
             avatar.setImageURI(uri);
         }
+    }
+
+    public void request() {
+        StandardAPI.getService.getProfile(userId, getData(requireContext(), "cookie")).enqueue(new Callback<User>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                assert response.body() != null;
+                user = response.body();
+                nameProfile.setText(response.body().getName());
+                usernameProfile.setText(response.body().getUsername());
+
+                // Base64 to image
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    byte[] imgBytes = Base64.getDecoder().decode(response.body().getAvatar());
+                    Bitmap img = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length);
+
+                    avatarProfile.setImageBitmap(img);
+
+                }
+
+                followersCount.setText(response.body().getFollowers());
+                followingCount.setText(response.body().getFollowing());
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable throwable) {
+
+            }
+        });
     }
 }
 

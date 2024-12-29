@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 
@@ -104,7 +104,12 @@ public class PostActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Post> call, @NonNull Response<Post> response) {
                 if (response.isSuccessful()) {
                     post = response.body();
-                    postFragment = new PostFragment(post, new PostAdapter.CommentCallback() {
+                    postFragment = new PostFragment(post, new PostAdapter.PostCallback() {
+                        @Override
+                        public void Like(boolean isLike, String likeCount) {
+
+                        }
+
                         @Override
                         public void Comment(Map<String, String> body) {
                             Log.i("Comment callback", "PostActivity");
@@ -122,6 +127,11 @@ public class PostActivity extends AppCompatActivity {
                                 inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
                                 reply.requestFocus();
                             }
+
+                        }
+
+                        @Override
+                        public void Repost(boolean isRepost, String repostCount) {
 
                         }
                     }, new PostFragment.StatusCallback() {
