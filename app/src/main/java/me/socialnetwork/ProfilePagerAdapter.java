@@ -5,20 +5,26 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import me.socialnetwork.profile.ProfileLikeFragment;
+import me.socialnetwork.profile.ProfilePostsFragment;
+import me.socialnetwork.profile.ProfileRepostFragment;
+
 public class ProfilePagerAdapter extends FragmentStateAdapter {
 
-    public ProfilePagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    private String userId;
+
+    public ProfilePagerAdapter(@NonNull FragmentActivity fragmentActivity, String userId) {
         super(fragmentActivity);
+        this.userId = userId;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
-            case 0: return new PostsFragment();
-            case 1: return new RepliesFragment();
-            case 2: return new RepostFragment();
-            default: return new PostsFragment();
+            case 1: return new ProfileLikeFragment(userId);
+            case 2: return new ProfileRepostFragment(userId);
+            default: return new ProfilePostsFragment(userId);
         }
     }
 

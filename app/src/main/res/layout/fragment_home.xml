@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    android:id="@+id/homeFragment"
+    tools:context=".fragment.HomeFragment">
 
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#FFFFFF">
+        android:background="@color/white">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
             android:orientation="horizontal"
-            android:padding="8dp"
             android:gravity="center_vertical">
 
             <!-- Logo -->
             <TextView
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:textSize="28sp"
                 android:textColor="#000000"
-                android:fontFamily="sans-serif" />
+                android:letterSpacing="0.1"
+                android:textStyle="bold"
+                android:fontFamily="@font/alluring"/>
 
             <!-- Biểu tượng tin nhắn và thông báo -->
             <LinearLayout
@@ -39,149 +44,44 @@
                 android:gravity="end">
 
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="16dp"
-                    android:src="@drawable/heart"
+                    android:src="@drawable/barcelona_heart_outline_18"
                     tools:ignore="ContentDescription" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="message"
-                    android:src="@drawable/message"
-                    tools:ignore="HardcodedText" />
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:contentDescription="message"-->
+<!--                    android:src="@drawable/message"-->
+<!--                    tools:ignore="HardcodedText" />-->
             </LinearLayout>
         </LinearLayout>
 
-        <!-- res/layout/item_post.xml -->
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:background="#FFFFFF">
+            android:background="#E0E0E0"
+            android:overScrollMode="never"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0" />
-
-            <!-- Thông tin người đăng -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:elevation="12dp"
-                    android:innerRadius="0dp"
-                    android:shape="ring"
-                    android:thicknessRatio="1.9"
-                    app:cardCornerRadius="50dp">
-
-                    <ImageView
-                        android:id="@+id/avatar"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/avt"
-                        android:scaleType="centerCrop" />
-                </androidx.cardview.widget.CardView>
-
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Username"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/postTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2h"
-                        android:textColor="#808080"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-            <TextView
-                android:id="@+id/postContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Bai dang o trang chinh"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <ImageView
-                    android:id="@+id/iconLike"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/heart"
-                    android:contentDescription="Like" />
-
-                <ImageView
-                    android:id="@+id/iconReply"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/reply"
-                    android:contentDescription="Reply" />
-
-                <ImageView
-                    android:id="@+id/iconShare"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/share"
-                    android:contentDescription="Share" />
-
-
-            </LinearLayout>
-            <TextView
-                android:id="@+id/postStats"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="4 replies • 12 likes"
-                android:textColor="#808080"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#E0E0E0" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewHome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
-
-        </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="write post"
+        android:layout_margin="10dp"
+        android:src="@drawable/fb_ic_compose_outline_20"
+        android:tint="@color/white"
+        android:backgroundTint="@color/blue"
+        android:foregroundGravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText,MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

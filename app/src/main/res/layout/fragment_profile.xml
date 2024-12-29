@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
-    tools:context=".ProfileFragment">
+    android:background="@color/white"
+    android:id="@+id/profileFragment"
+    android:orientation="vertical"
+    tools:openDrawer="left"
+    tools:context=".fragment.ProfileFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,133 +24,250 @@
             android:orientation="vertical">
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:elevation="12dp"
-                    android:innerRadius="0dp"
-                    android:shape="ring"
-                    android:thicknessRatio="1.9"
-                    app:cardCornerRadius="50dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="start">
 
                     <ImageView
-                        android:id="@+id/profileImage"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/avt"
-                        android:layout_marginEnd="16dp"/>
-                </androidx.cardview.widget.CardView>
-                <LinearLayout
-                    android:gravity="center|end"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                        android:id="@+id/back_button"
+                        android:visibility="gone"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="16sp"
+                        android:src="@drawable/baseline_arrow_back_ios_new_24"
+                        tools:ignore="ContentDescription" />
 
-                    <Button
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Edit profile"
-                        android:background="@drawable/btn_edit_profile"
-                        android:textColor="@color/black"
-                        android:textAllCaps="false"
-                        android:paddingRight="20dp"
-                        android:paddingLeft="20dp">
-                    </Button>
+                        android:text="@string/profile"
+                        android:textStyle="bold"
+                        android:textSize="20dp"/>
+
                 </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/usernameProfile"
-                    android:layout_width="wrap_content"
+
+                <!-- Biểu tượng tin nhắn và thông báo -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Username"
-                    android:layout_marginTop="10dp"
-                    android:textStyle="bold"
-                    android:textSize="25sp"/>
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="end">
 
-                <TextView
-                    android:id="@+id/userID"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="username"
-                    android:textSize="14sp"/>
+                    <ImageView
+                        android:id="@+id/drawer_button"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/fb_ic_more_filled_24"
+                        tools:ignore="ContentDescription" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
-            <!-- Follow -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/followerCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="100"
-                        android:paddingRight="3dp"
-                        android:textSize="14sp"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Followers"
-                        android:textColor="@color/half_black"
-                        android:textSize="14sp"/>
-                </LinearLayout>
+                android:layout_margin="10dp"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        app:cardCornerRadius="32dp">
+
+                        <ImageView
+                            android:id="@+id/profileImage"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/avt"
+                            android:layout_marginEnd="16dp"/>
+                    </androidx.cardview.widget.CardView>
+                    <LinearLayout
+                        android:gravity="center|end"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:id="@+id/editProfileButton"
+                            android:background="@drawable/btn_edit_profile"
+                            android:text="@string/edit_profile"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            tools:ignore="TouchTargetSizeCheck">
+                        </Button>
+                    </LinearLayout>
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp">
+                    android:orientation="vertical">
+
                     <TextView
-                        android:id="@+id/followingCount"
+                        android:id="@+id/nameProfile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100"
-                        android:paddingRight="3dp"
-                        android:textSize="14sp"
-                        android:textStyle="bold"/>
-                    <TextView
+                        android:text="@string/name"
+                        android:layout_marginTop="6dp"
+                        android:textStyle="bold"
+                        android:textSize="20sp"/>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Following"
-                        android:textColor="@color/half_black"
-                        android:textSize="14sp"/>
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@"
+                            android:textColor="@color/half_black"/>
+
+                        <TextView
+                            android:id="@+id/usernameProfile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/username"
+                            android:textColor="@color/half_black"
+                            android:textSize="13sp"/>
+
+                    </LinearLayout>
+
                 </LinearLayout>
+
+                <!-- Follow -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+                    <LinearLayout
+                        android:id="@+id/followers_show"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/followersCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:paddingRight="3dp"
+                            android:textSize="12sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/followers"
+                            android:textColor="@color/half_black"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/following_show"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp">
+                        <TextView
+                            android:id="@+id/followingCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100"
+                            android:paddingRight="3dp"
+                            android:textSize="12sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/following"
+                            android:textColor="@color/half_black"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
-<!--                Cai cho nay may chuyen thanh menu cho t-->
-<!--                https://stackoverflow.com/questions/48169265/creating-a-top-navigation-menu-->
+<!--        Cai cho nay may chuyen thanh menu cho t-->
+<!--        https://stackoverflow.com/questions/48169265/creating-a-top-navigation-menu-->
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="parent"
-                android:background="#FFFFFF"
-                android:tabTextColor="black"
-                android:tabIndicatorColor="@color/wthite"
-                android:tabSelectedTextColor="@color/white" />
+                android:contentDescription="@string/tablayout"
+                app:tabIndicatorColor="@color/blue"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextAppearance="@style/text_bold"
+                app:tabTextColor="#6c7075" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/tabLayout"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </LinearLayout>
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/side_widget">
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/logout"
+                    android:textColor="@color/red"
+                    android:textSize="16sp"
+                    android:layout_margin="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
+
+</androidx.drawerlayout.widget.DrawerLayout>
