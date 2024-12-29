@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_post"
+    android:id="@+id/item_reply"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -32,22 +32,21 @@
                 app:cardCornerRadius="20dp"
                 app:cardUseCompatPadding="false">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
 
                     <ImageView
                         android:id="@+id/avatar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginEnd="18dp"
                         android:contentDescription="@string/avatar"
                         android:scaleType="centerCrop"
                         android:src="@drawable/avt"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="MissingConstraints" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
             </androidx.cardview.widget.CardView>
 
             <Space
@@ -70,9 +69,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/name"
                         android:textColor="#000000"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        />
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/username"
@@ -81,7 +79,7 @@
                         android:layout_marginStart="6dp"
                         android:text="@string/username"
                         android:textColor="#808080"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         tools:ignore="TextContrastCheck" />
 
                 </LinearLayout>
@@ -111,6 +109,7 @@
                     android:layout_marginEnd="20dp"
                     android:text="@string/follow"
                     android:textColor="@color/blue"
+                    android:visibility="gone"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -130,20 +129,21 @@
         </LinearLayout>
 
         <TextView
+            android:layout_marginLeft="50dp"
             android:id="@+id/postContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:text="Bai dang o trang chinh"
             android:textColor="#000000"
             android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
         <LinearLayout
+            android:layout_marginLeft="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
-            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -184,6 +184,7 @@
                 android:textSize="13sp" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/repostButton"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
@@ -192,6 +193,7 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/repostCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -205,5 +207,25 @@
         </LinearLayout>
 
     </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/replies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:layout_marginLeft="58dp"
+        android:paddingEnd="10dp"/>
+
+    <TextView
+        android:id="@+id/load_replies_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue"
+        android:textSize="12sp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/view_n_replies"
+        android:paddingStart="58dp"
+        tools:ignore="RtlSymmetry" />
 
 </LinearLayout>

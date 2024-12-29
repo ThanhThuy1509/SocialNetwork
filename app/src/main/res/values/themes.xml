@@ -17,7 +17,6 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">20dp</item>
         <item name="android:layout_marginBottom">10dp</item>
-<!--        <item name="background">@drawable/selector_textbox</item>-->
     </style>
 
     <style name="PopupMenuStyle" parent="Theme.Design.Light.NoActionBar">
@@ -26,5 +25,13 @@
         <item name="android:dividerHeight">1dp</item>
     </style>
 
+    <style name="text_bold" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
 
 </resources>

@@ -3,5 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="half_black">#D31B1B1B</color>
-    <color name="blue">#1d9bf0</color>
+    <color name="blue">#1D9BF0</color>
+    <color name="un_active">#E0E0E0</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
 </resources>

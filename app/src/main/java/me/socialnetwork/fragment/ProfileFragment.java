@@ -2,6 +2,8 @@ package me.socialnetwork.fragment;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static me.socialnetwork.LoginActivity.clearData;
+import static me.socialnetwork.LoginActivity.getData;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,11 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,27 +27,23 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
 
-import me.socialnetwork.ProfilePagerAdapter;
-import me.socialnetwork.R;
-import me.socialnetwork.api.StandardAPI;
-import me.socialnetwork.api.IUser;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static me.socialnetwork.LoginActivity.getData;
-
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -58,6 +51,21 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import me.socialnetwork.LoginActivity;
+import me.socialnetwork.MainActivity;
+import me.socialnetwork.ProfilePagerAdapter;
+import me.socialnetwork.R;
+import me.socialnetwork.Values;
+import me.socialnetwork.api.StandardAPI;
+import me.socialnetwork.api.User;
+import me.socialnetwork.profile.follow.FollowWidget;
+import me.socialnetwork.profile.follow.UserTagAdapter;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -70,32 +78,50 @@ public class ProfileFragment extends Fragment {
     private TextView nameProfile;
     private TextView usernameProfile;
     ImageView avatarProfile;
+    ImageView backButton;
+    ImageView drawerButton;
+    User user;
+    String userId;
+
+    public ProfileFragment(String userId) {
+        this.userId = userId;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        drawerButton = view.findViewById(R.id.drawer_button);
+        DrawerLayout drawerLayout = view.findViewById(R.id.profileFragment);
+        TextView logoutButton = view.findViewById(R.id.logout);
+        drawerButton.setOnClickListener(v -> {
+            drawerLayout.openDrawer(Gravity.RIGHT);
+        });
+
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         nameProfile = view.findViewById(R.id.nameProfile);
         usernameProfile = view.findViewById(R.id.usernameProfile);
         avatarProfile = view.findViewById(R.id.profileImage);
         TextView followersCount = view.findViewById(R.id.followersCount);
         TextView followingCount = view.findViewById(R.id.followingCount);
         Button editProfileButton = view.findViewById(R.id.editProfileButton);
+        backButton = view.findViewById(R.id.back_button);
+
+        LinearLayout followersShowButton = view.findViewById(R.id.followers_show);
+        LinearLayout followingShowButton = view.findViewById(R.id.following_show);
 
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         ViewPager2 viewPager = view.findViewById(R.id.viewPager);
 
-        ProfilePagerAdapter adapter = new ProfilePagerAdapter(requireActivity());
+        ProfilePagerAdapter adapter = new ProfilePagerAdapter(requireActivity(), userId);
         viewPager.setAdapter(adapter);
 
-        Log.i("ID", getData(requireContext(), "cookie"));
-
-        StandardAPI.getService.getProfile(getData(requireContext(), "id"), getData(requireContext(), "cookie")).enqueue(new Callback<IUser>() {
+        StandardAPI.getService.getProfile(userId, getData(requireContext(), "cookie")).enqueue(new Callback<User>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<IUser> call, @NonNull Response<IUser> response) {
-                Log.i("Profile", new Gson().toJson(response.body()));
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 assert response.body() != null;
+                user = response.body();
                 nameProfile.setText(response.body().getName());
                 usernameProfile.setText(response.body().getUsername());
 
@@ -114,23 +140,49 @@ public class ProfileFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<IUser> call, @NonNull Throwable throwable) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable throwable) {
 
             }
         });
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
-                case 0: tab.setText("Posts"); break;
-                case 1: tab.setText("Replies"); break;
-                case 2: tab.setText("Repost"); break;
+                case 0: tab.setText(view.getResources().getString(R.string.posts)); break;
+                case 1: tab.setText(view.getResources().getString(R.string.likes)); break;
+                case 2: tab.setText(view.getResources().getString(R.string.reposts)); break;
             }
         }).attach();
 
         editProfileButton.setOnClickListener(v -> editProfileWindow(view.getContext()));
 
+        followersShowButton.setOnClickListener(v -> {
+            new FollowWidget(view,requireActivity(), user, 0, new UserTagAdapter.InfoChange() {
+                @Override
+                public void following(String following) {
+                    followingCount.setText(following);
+                    user.setFollowing(following);
+                }
+            });
+        });
+
+        followingShowButton.setOnClickListener(v -> {
+            new FollowWidget(view,requireActivity(), user, 1, new UserTagAdapter.InfoChange() {
+                @Override
+                public void following(String following) {
+                    followingCount.setText(following);
+                    user.setFollowing(following);
+                }
+            });
+        });
+
+        logoutButton.setOnClickListener(v -> {
+            clearData(view.getContext());
+            getActivity().onBackPressed();
+        });
+
         return view;
     }
+
 
     private ImageView avatar;
     private String avatarBase64;
@@ -145,13 +197,14 @@ public class ProfileFragment extends Fragment {
         @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.windown_edit_profile, null);
 
         int width = this.view.getWidth();
-        int height = (int) (Resources.getSystem().getDisplayMetrics().heightPixels * 0.9);
+        int height = (int) (Resources.getSystem().getDisplayMetrics().heightPixels * Values.POPUPWINDOW_HEIGHT);
 
         Drawable background = ContextCompat.getDrawable(context, R.drawable.popupwindow_background);
         view.setBackgroundDrawable(background);
 
         PopupWindow popupWindow = new PopupWindow(view, width, height, true);
         popupWindow.setBackgroundDrawable(background);
+        popupWindow.setAnimationStyle(R.style.Animation);
         popupWindow.showAtLocation(this.view.findViewById(R.id.profileFragment), Gravity.BOTTOM, 0, 0);
         dimBehind(popupWindow);
 
@@ -212,10 +265,10 @@ public class ProfileFragment extends Fragment {
                 mapBody.put("avatar", avatarBase64);
 
                 RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), new JSONObject(mapBody).toString());
-                StandardAPI.getService.updateProfile(getData(context, "cookie"), body).enqueue(new Callback<IUser>() {
+                StandardAPI.getService.updateProfile(getData(context, "cookie"), body).enqueue(new Callback<User>() {
                     @SuppressLint("SetTextI18n")
                     @Override
-                    public void onResponse(@NonNull Call<IUser> call, @NonNull Response<IUser> response) {
+                    public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                         if (response.isSuccessful()) {
                             Log.i("ProfileFragment", new Gson().toJson(response.body()));
                             switch (Objects.requireNonNull(response.body()).getStatus()) {
@@ -246,7 +299,7 @@ public class ProfileFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<IUser> call, @NonNull Throwable throwable) {
+                    public void onFailure(@NonNull Call<User> call, @NonNull Throwable throwable) {
                         throwable.printStackTrace();
                     }
                 });

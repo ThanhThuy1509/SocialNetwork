@@ -17,15 +17,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.gson.Gson;
-
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import me.socialnetwork.api.IUser;
 import me.socialnetwork.api.StandardAPI;
+import me.socialnetwork.api.User;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -46,12 +44,31 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
+        String cookie = getData(this, "cookie");
+        Log.i("Cookie", cookie);
+        if (!cookie.isEmpty()) {
+            StandardAPI.getService.authLoginCookie(cookie).enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (!response.isSuccessful()) return;
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    saveData(LoginActivity.this, "cookie", response.headers().get("Set-Cookie"));
+                    assert response.body() != null;
+                    saveData(LoginActivity.this, "id", response.body().getId());
+                    saveData(LoginActivity.this, "avatar", response.body().getAvatar());
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable throwable) {
+
+                }
+            });
+        }
+
         Button loginButton = findViewById(R.id.loginButton);
         EditText username = findViewById(R.id.usernameInput);
         EditText password = findViewById(R.id.passwordInput);
-
-        username.setText("_h.duong");
-        password.setText("123456");
 
         loginButton.setOnClickListener(v -> {
             Map<String, String> body = new HashMap<>();
@@ -61,11 +78,10 @@ public class LoginActivity extends AppCompatActivity {
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), new JSONObject(body).toString());
             Log.i("LoginActivity", body.toString());
 
-            StandardAPI.getService.authLogin(requestBody).enqueue(new Callback<IUser>() {
+            StandardAPI.getService.authLogin(requestBody).enqueue(new Callback<User>() {
                 @Override
-                public void onResponse(@NonNull Call<IUser> call, @NonNull Response<IUser> response) {
+                public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                     if (response.isSuccessful()) {
-                        Log.i("Login response", new Gson().toJson(response.body()));
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         saveData(LoginActivity.this, "cookie", response.headers().get("Set-Cookie"));
                         assert response.body() != null;
@@ -78,13 +94,17 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<IUser> call, @NonNull Throwable throwable) {
+                public void onFailure(@NonNull Call<User> call, @NonNull Throwable throwable) {
                     throwable.printStackTrace();
                 }
 
             });
         });
 
+    }
+    public static void clearData(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        sharedPreferences.edit().clear().commit();
     }
 
     public static void saveData(Context context, String key, String data) {

@@ -1,12 +1,15 @@
 package me.socialnetwork;
 
-import static me.socialnetwork.R.*;
+import static me.socialnetwork.LoginActivity.getData;
+import static me.socialnetwork.R.id;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuCompat;
 import androidx.fragment.app.Fragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import me.socialnetwork.fragment.HomeFragment;
 import me.socialnetwork.fragment.ProfileFragment;
 
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new HomeFragment();
                     break;
                 case (id.nav_profile):
-                    selectedFragment = new ProfileFragment();
+                    selectedFragment = new ProfileFragment(getData(this, "id"));
                     break;
             }
 

@@ -3,7 +3,6 @@ package me.socialnetwork.post;
 import com.google.gson.annotations.SerializedName;
 
 public class Post {
-
     private String name;
     private String username;
     private String content;
@@ -33,6 +32,26 @@ public class Post {
     private Boolean isReposted;
     @SerializedName("repost_count")
     private String repostCount;
+
+    @SerializedName("post_id")
+    private String postId;
+
+    @SerializedName("parent_comment_id")
+    private String parentCommentId;
+
+    @SerializedName("replied_to_comment_id")
+    private String repliedToCommentId;
+
+    @SerializedName("replied_to_username")
+    private String repliedToUsername;
+
+    public String getRepliedToUsername() {
+        return repliedToUsername;
+    }
+
+    public void setRepliedToUsername(String repliedToUsername) {
+        this.repliedToUsername = repliedToUsername;
+    }
 
     public Post(String content) {
         this.content = content;
@@ -141,5 +160,33 @@ public class Post {
 
     public void setReposted(Boolean reposted) {
         isReposted = reposted;
+    }
+
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
+    public String getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public void setParentCommentId(String parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+
+    public String getRepliedToCommentId() {
+        return repliedToCommentId;
+    }
+
+    public void setRepliedToCommentId(String repliedToCommentId) {
+        this.repliedToCommentId = repliedToCommentId;
     }
 }

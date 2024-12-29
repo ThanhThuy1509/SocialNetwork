@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SocialNetwork</string>
     <string name="home">Home</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Trang cá nhân</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="username">Tên tài khoản</string>
@@ -25,4 +25,15 @@
     <string name="follow">Theo dõi</string>
     <string name="followers">Người theo dõi</string>
     <string name="following">Đang theo dõi</string>
+    <string name="comment">Bình luận</string>
+    <string name="hint_reply_to_post">Trả lời bài viết</string>
+    <string name="reply_to_person">Trả lời @%s</string>
+    <string name="hint_reply_to_person">Trả lời bình luận</string>
+    <string name="todo">TODO</string>
+    <string name="view_n_replies">Xem %s trả lời</string>
+    <string name="cancel">Hủy</string>
+    <string name="posts">Bài viết</string>
+    <string name="likes">Thích</string>
+    <string name="reposts">Đăng lại</string>
+    <string name="logout">Đăng xuất</string>
 </resources>
